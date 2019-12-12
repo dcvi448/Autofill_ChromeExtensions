@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "TuDongDien",
+  "description": "Ung dung tu dong dien du lieu",
+  "version": "2.1",
+  "icons": {
+    "128": "firebase.png"
+  },
+  "browser_action": {
+    "default_icon": "firebase.png",
+    "default_popup": "credentials.html"
+  },
+  "background": {
+    "page": "background.html"
+  },
+  "permissions": [
+    "identity"
+  ],
+  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
+  "oauth2": {
+    
+    "client_id": "742774143019-gfdr4b37ktc9e99obqcc59bipcr70j85.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArue5kWGnS6+ZAiL1iyHYlqiJxaOQD7K4F+gx4M/vmTlzEiW9D3zY4Mnk1X9rnbWySq8QFJtw/LiO1v0q5Czvpszd600l5oWUimdHlIUs/HkDQwnhy2Q4GWOn1/MAPzYnrdRaZGeVwOUTFhkuyCydtSP4hduWW2qSZACZOgWK0dqv5sAV1SpQloJJ4rqscXVB+y54vqL4b4TDGE9k8cjt4JxUWthvPrYc7vLN2XnLuR28kX8Jmw/dGkFZozqDT6890QanERs+q80UA2BW9zYo53bI0sigK3Bw7XePX23QUIXSsPHc0Qh1r77VuNb2LR67u0VTszniiLNJK0UM0XGFZwIDAQAB"
+}
