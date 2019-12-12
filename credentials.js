@@ -38,13 +38,20 @@ function initApp() {
       document.getElementById('quickstart-button').textContent = 'Đăng xuất';
       document.getElementById('quickstart-sign-in-status').textContent = 'Đã đăng nhập';
       document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+      document.getElementById('quickstart-account-fullName').textContent= user.displayName;
+      document.getElementById('quickstart-account-email').textContent= user.email;
+      document.getElementById('quickstart-account-photoAcc').src = user.photoURL;
+
       // [END_EXCLUDE]
     } else {
       // Let's try to get a Google auth token programmatically.
       // [START_EXCLUDE]
       document.getElementById('quickstart-button').textContent = 'Đăng nhập bằng Google';
       document.getElementById('quickstart-sign-in-status').textContent = 'Chưa đăng nhập';
-      document.getElementById('quickstart-account-details').textContent = 'null';
+      document.getElementById('quickstart-account-details').textContent = '';
+      document.getElementById('quickstart-account-fullName').textContent= '';
+      document.getElementById('quickstart-account-email').innerText= '';
+      document.getElementById('quickstart-account-photoAcc').src = '';
       // [END_EXCLUDE]
     }
     document.getElementById('quickstart-button').disabled = false;

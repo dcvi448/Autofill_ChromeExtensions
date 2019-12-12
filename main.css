@@ -58,3 +58,9 @@ h3 {
   padding-left: 50px;
   line-height: 40px;
 }
+#quickstart-account-photoAcc {
+  width: 100px;
+}
+table{
+  width: fit-content;
+}
