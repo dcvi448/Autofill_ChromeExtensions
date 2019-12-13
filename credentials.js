@@ -50,7 +50,7 @@ function initApp() {
       document.getElementById('quickstart-sign-in-status').textContent = 'Chưa đăng nhập';
       document.getElementById('quickstart-account-details').textContent = '';
       document.getElementById('quickstart-account-fullName').textContent= '';
-      document.getElementById('quickstart-account-email').innerText= '';
+      document.getElementById('quickstart-account-email').textContent= '';
       document.getElementById('quickstart-account-photoAcc').src = '';
       // [END_EXCLUDE]
     }
@@ -101,6 +101,31 @@ function startSignIn() {
   }
 }
 
+function luuThongTin(){
+  event.preventDefault();
+  alert('a');
+}
+
+
 window.onload = function() {
   initApp();
+  
 };
+
+
+
+// When the popup HTML has loaded
+window.addEventListener('load', function(evt) {
+  // Handle the bookmark form submit event with our addBookmark function
+  document.getElementById('formLuuThongTin').addEventListener('submit', luuThongTin);
+  // Get the event page
+  chrome.runtime.getBackgroundPage(function(eventPage) {
+      // Call the getPageInfo function in the event page, passing in 
+      // our onPageDetailsReceived function as the callback. This injects 
+      // content.js into the current tab's HTML
+      eventPage.getPageDetails(onPageDetailsReceived);
+  });
+});
+
+
+
