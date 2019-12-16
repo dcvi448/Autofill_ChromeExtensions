@@ -2,8 +2,8 @@
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyDmvFlYKdmLgvWg2_8u0qFrkDW6wMTZB9M",
-    databaseURL: "https://heroic-vial-261514.firebaseio.com",
-    storageBucket: "heroic-vial-261514.appspot.com",
+  databaseURL: "https://heroic-vial-261514.firebaseio.com",
+  storageBucket: "heroic-vial-261514.appspot.com",
 };
 firebase.initializeApp(config);
 
@@ -21,10 +21,11 @@ firebase.initializeApp(config);
  *
  * When signed in, we also authenticate to the Firebase Realtime Database.
  */
+var userId = "";
 function initApp() {
   // Listen for auth state changes.
   // [START authstatelistener]
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       // User is signed in.
       var displayName = user.displayName;
@@ -34,14 +35,14 @@ function initApp() {
       var isAnonymous = user.isAnonymous;
       var uid = user.uid;
       var providerData = user.providerData;
+      userId = uid;
       // [START_EXCLUDE]
       document.getElementById('quickstart-button').textContent = 'Đăng xuất';
       document.getElementById('quickstart-sign-in-status').textContent = 'Đã đăng nhập';
       document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
-      document.getElementById('quickstart-account-fullName').textContent= user.displayName;
-      document.getElementById('quickstart-account-email').textContent= user.email;
+      document.getElementById('quickstart-account-fullName').textContent = user.displayName;
+      document.getElementById('quickstart-account-email').textContent = user.email;
       document.getElementById('quickstart-account-photoAcc').src = user.photoURL;
-
       // [END_EXCLUDE]
     } else {
       // Let's try to get a Google auth token programmatically.
@@ -49,8 +50,8 @@ function initApp() {
       document.getElementById('quickstart-button').textContent = 'Đăng nhập bằng Google';
       document.getElementById('quickstart-sign-in-status').textContent = 'Chưa đăng nhập';
       document.getElementById('quickstart-account-details').textContent = '';
-      document.getElementById('quickstart-account-fullName').textContent= '';
-      document.getElementById('quickstart-account-email').textContent= '';
+      document.getElementById('quickstart-account-fullName').textContent = '';
+      document.getElementById('quickstart-account-email').textContent = '';
       document.getElementById('quickstart-account-photoAcc').src = '';
       // [END_EXCLUDE]
     }
@@ -67,18 +68,18 @@ function initApp() {
  */
 function startAuth(interactive) {
   // Request an OAuth token from the Chrome Identity API.
-  chrome.identity.getAuthToken({interactive: !!interactive}, function(token) {
+  chrome.identity.getAuthToken({ interactive: !!interactive }, function (token) {
     if (chrome.runtime.lastError && !interactive) {
       console.log('It was not possible to get a token programmatically.');
-    } else if(chrome.runtime.lastError) {
+    } else if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
     } else if (token) {
       // Authorize Firebase with the OAuth Access Token.
       var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-      firebase.auth().signInWithCredential(credential).catch(function(error) {
+      firebase.auth().signInWithCredential(credential).catch(function (error) {
         // The OAuth token might have been invalidated. Lets' remove it from cache.
         if (error.code === 'auth/invalid-credential') {
-          chrome.identity.removeCachedAuthToken({token: token}, function() {
+          chrome.identity.removeCachedAuthToken({ token: token }, function () {
             startAuth(interactive);
           });
         }
@@ -103,15 +104,15 @@ function startSignIn() {
 
 
 
-window.onload = function() {
+window.onload = function () {
   initApp();
-  
+
 };
 
 
 
 // When the popup HTML has loaded
-window.addEventListener('load', function(evt) {
+window.addEventListener('load', function (evt) {
   // Handle the bookmark form submit event with our addBookmark function
   document.getElementById('formLuuThongTin').addEventListener('submit', luuThongTin);
   // Get the event page
@@ -130,22 +131,37 @@ window.addEventListener('load', function(evt) {
 // } 
 
 
-function luuThongTin(){
+function luuThongTin() {
   event.preventDefault();
-  var formThongTinNguoiDung =document.getElementById('formLuuThongTin');
-  alert(formThongTinNguoiDung.hoten.value);
 
-  // fetch reference database
-  //var database = firebase.database();
+  readUserData();
+  var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
+  var thongTinNguoiDung = [];
 
+  for (var item of formThongTinNguoiDung.elements) {
+    var userKey = { [item.id]: item.value }
+    thongTinNguoiDung.push(userKey);
+  }
+
+  // var jthongTinNguoiDung = JSON.stringify(thongTinNguoiDung);
+  // Get a reference to the database service
+  var database = firebase.database();
+  writeUserData(thongTinNguoiDung);
 
 }
 
-function writeUserData(userId, name, email, imageUrl, persionalInformation) {
-  firebase.database().ref('users/' + userId).set({
-    username: name,
-    email: email,
-    profile_picture : imageUrl
+function writeUserData(thongTinNguoiDung) {
+  firebase.database().ref(userId).set(
+    thongTinNguoiDung);
+}
 
+function readUserData() {
+  var userId = firebase.auth().currentUser.uid;
+  return firebase.database().ref(userId).once('value').then(function (snapshot) {
+    
+    var x = snapshot.val();
+    var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+
+    // ...
   });
 }
