@@ -33,15 +33,6 @@ window.onload = function() {
   initApp();
 };
 
-if(document.readyState === 'loading') {
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById("formLuuThongTin").addEventListener("click", handler);
-});}
-
-// The handler also must go in a .js file
-function handler() {
-  alert('a');
-}
 
 // This function is called onload in the popup code
 function getPageDetails(callback) { 

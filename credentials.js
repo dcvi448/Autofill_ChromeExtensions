@@ -101,10 +101,6 @@ function startSignIn() {
   }
 }
 
-function luuThongTin(){
-  event.preventDefault();
-  alert('a');
-}
 
 
 window.onload = function() {
@@ -127,5 +123,29 @@ window.addEventListener('load', function(evt) {
   });
 });
 
+function onPageDetailsReceived(pageDetails)  { 
+  document.getElementById('title').value = pageDetails.title; 
+  document.getElementById('url').value = pageDetails.url; 
+  document.getElementById('summary').innerText = pageDetails.summary; 
+} 
 
 
+function luuThongTin(){
+  event.preventDefault();
+  var formThongTinNguoiDung =document.getElementById('formLuuThongTin').ELEMENT_NODE();
+  //alert(JSON.parse( formThongTinNguoiDung));
+
+  // fetch reference database
+  //var database = firebase.database();
+
+
+}
+
+function writeUserData(userId, name, email, imageUrl, persionalInformation) {
+  firebase.database().ref('users/' + userId).set({
+    username: name,
+    email: email,
+    profile_picture : imageUrl
+
+  });
+}
