@@ -12,7 +12,7 @@
   },
   "background": {
     "page": "background.html",
-    "script":["background.js"]
+    "script":"event.js"
   },
   "permissions": [
     "identity"

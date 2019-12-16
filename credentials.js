@@ -115,25 +115,25 @@ window.addEventListener('load', function(evt) {
   // Handle the bookmark form submit event with our addBookmark function
   document.getElementById('formLuuThongTin').addEventListener('submit', luuThongTin);
   // Get the event page
-  chrome.runtime.getBackgroundPage(function(eventPage) {
-      // Call the getPageInfo function in the event page, passing in 
-      // our onPageDetailsReceived function as the callback. This injects 
-      // content.js into the current tab's HTML
-      eventPage.getPageDetails(onPageDetailsReceived);
-  });
+  // chrome.runtime.getBackgroundPage(function(eventPage) {
+  //     // Call the getPageInfo function in the event page, passing in 
+  //     // our onPageDetailsReceived function as the callback. This injects 
+  //     // content.js into the current tab's HTML
+  //     eventPage.getPageDetails(onPageDetailsReceived);
+  // });
 });
 
-function onPageDetailsReceived(pageDetails)  { 
-  document.getElementById('title').value = pageDetails.title; 
-  document.getElementById('url').value = pageDetails.url; 
-  document.getElementById('summary').innerText = pageDetails.summary; 
-} 
+// function onPageDetailsReceived(pageDetails)  { 
+//   document.getElementById('title').value = pageDetails.title; 
+//   document.getElementById('url').value = pageDetails.url; 
+//   document.getElementById('summary').innerText = pageDetails.summary; 
+// } 
 
 
 function luuThongTin(){
   event.preventDefault();
-  var formThongTinNguoiDung =document.getElementById('formLuuThongTin').ELEMENT_NODE();
-  //alert(JSON.parse( formThongTinNguoiDung));
+  var formThongTinNguoiDung =document.getElementById('formLuuThongTin');
+  alert(formThongTinNguoiDung.hoten.value);
 
   // fetch reference database
   //var database = firebase.database();
