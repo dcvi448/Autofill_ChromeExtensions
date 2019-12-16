@@ -43,6 +43,7 @@ function initApp() {
       document.getElementById('quickstart-account-fullName').textContent = user.displayName;
       document.getElementById('quickstart-account-email').textContent = user.email;
       document.getElementById('quickstart-account-photoAcc').src = user.photoURL;
+      readUserData();
       // [END_EXCLUDE]
     } else {
       // Let's try to get a Google auth token programmatically.
@@ -97,6 +98,7 @@ function startSignIn() {
   document.getElementById('quickstart-button').disabled = true;
   if (firebase.auth().currentUser) {
     firebase.auth().signOut();
+    document.getElementById('formLuuThongTin').reset();
   } else {
     startAuth(true);
   }
@@ -159,8 +161,19 @@ function readUserData() {
   var userId = firebase.auth().currentUser.uid;
   return firebase.database().ref(userId).once('value').then(function (snapshot) {
     
-    var x = snapshot.val();
-    var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+    var thongTinNguoiDungTrenMayChu = snapshot.val();
+    if (thongTinNguoiDungTrenMayChu){
+      var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
+      for (var item of formThongTinNguoiDung.elements) {
+        
+        item.value = thongTinNguoiDungTrenMayChu.find(function(i){
+          return i.hasOwnProperty(item.id);
+        })[item.id];
+      }
+      // formThongTinNguoiDung.elements.hoten.value =thongTinNguoiDungTrenMayChu.find(function(item){
+      //   return item.hasOwnProperty('hoten');
+      // })['hoten']
+    }
 
     // ...
   });

@@ -87,3 +87,6 @@ table{
   text-transform: uppercase;
   font-weight: bold;
 }
+.element{
+  text-align-last: center;
+}
