@@ -136,20 +136,25 @@ window.addEventListener('load', function (evt) {
 function luuThongTin() {
   event.preventDefault();
 
-  readUserData();
-  var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
-  var thongTinNguoiDung = [];
-
-  for (var item of formThongTinNguoiDung.elements) {
-    var userKey = { [item.id]: item.value }
-    thongTinNguoiDung.push(userKey);
+  if (firebase.auth().currentUser===null) {
+    alert('Bạn phải đăng nhập tài khoản Google mới có thể lưu thông tin');
+    return;
   }
+  else {
+    var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
+    var thongTinNguoiDung = [];
 
-  // var jthongTinNguoiDung = JSON.stringify(thongTinNguoiDung);
-  // Get a reference to the database service
-  var database = firebase.database();
-  writeUserData(thongTinNguoiDung);
+    for (var item of formThongTinNguoiDung.elements) {
+      var userKey = { [item.id]: item.value }
+      thongTinNguoiDung.push(userKey);
+    }
 
+    // var jthongTinNguoiDung = JSON.stringify(thongTinNguoiDung);
+    // Get a reference to the database service
+    var database = firebase.database();
+    writeUserData(thongTinNguoiDung);
+    readUserData();
+  }
 }
 
 function writeUserData(thongTinNguoiDung) {
@@ -160,13 +165,13 @@ function writeUserData(thongTinNguoiDung) {
 function readUserData() {
   var userId = firebase.auth().currentUser.uid;
   return firebase.database().ref(userId).once('value').then(function (snapshot) {
-    
+
     var thongTinNguoiDungTrenMayChu = snapshot.val();
-    if (thongTinNguoiDungTrenMayChu){
+    if (thongTinNguoiDungTrenMayChu) {
       var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
       for (var item of formThongTinNguoiDung.elements) {
-        
-        item.value = thongTinNguoiDungTrenMayChu.find(function(i){
+
+        item.value = thongTinNguoiDungTrenMayChu.find(function (i) {
           return i.hasOwnProperty(item.id);
         })[item.id];
       }

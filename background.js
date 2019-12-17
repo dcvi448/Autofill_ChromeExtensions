@@ -33,3 +33,10 @@ window.onload = function() {
   initApp();
 };
 
+// chrome.tabs.onUpdated.addListener(function(tab) {
+
+//   chrome.tabs.executeScript({
+//       file: 'content.js'
+//   }); 
+
+// });
