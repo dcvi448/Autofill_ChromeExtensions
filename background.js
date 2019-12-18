@@ -40,3 +40,13 @@ window.onload = function() {
 //   }); 
 
 // });
+
+
+
+chrome.runtime.onConnect.addListener(function(port) {
+  if(port.name == "my-channel"){
+      port.onMessage.addListener(function(msg) {
+          port.postMessage("send from background");
+      });
+  }
+});

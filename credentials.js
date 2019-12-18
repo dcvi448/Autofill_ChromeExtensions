@@ -90,7 +90,6 @@ function startAuth(interactive) {
     }
   });
 }
-
 /**
  * Starts the sign-in process.
  */
@@ -117,6 +116,28 @@ window.onload = function () {
 window.addEventListener('load', function (evt) {
   // Handle the bookmark form submit event with our addBookmark function
   document.getElementById('formLuuThongTin').addEventListener('submit', luuThongTin);
+
+  document.getElementById('btnTuDongDienThongTin').addEventListener("click", function () {
+
+    var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
+    var thongTinNguoiDung = [];
+
+    for (var item of formThongTinNguoiDung.elements) {
+      var userKey = { [item.id]: item.value }
+      thongTinNguoiDung.push(userKey);
+    }
+    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+      var activeTab = tabs[0];
+      chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDung);
+    });
+  })
+});
+
+
+
+
+
+
   // Get the event page
   // chrome.runtime.getBackgroundPage(function(eventPage) {
   //     // Call the getPageInfo function in the event page, passing in 
@@ -124,7 +145,7 @@ window.addEventListener('load', function (evt) {
   //     // content.js into the current tab's HTML
   //     eventPage.getPageDetails(onPageDetailsReceived);
   // });
-});
+//});
 
 // function onPageDetailsReceived(pageDetails)  { 
 //   document.getElementById('title').value = pageDetails.title; 
@@ -136,7 +157,7 @@ window.addEventListener('load', function (evt) {
 function luuThongTin() {
   event.preventDefault();
 
-  if (firebase.auth().currentUser===null) {
+  if (firebase.auth().currentUser === null) {
     alert('Bạn phải đăng nhập tài khoản Google mới có thể lưu thông tin');
     return;
   }
