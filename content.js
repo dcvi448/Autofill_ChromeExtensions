@@ -5,14 +5,21 @@
 //     'summary': window.getSelection().toString()
 // });
 console.log('Da load content.js');
+//request this mean user data
 
-
-
+//request [0]: user data, request [1]: id on server
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if( request) {console.log(request);
-      console.log(sender);
-         }
+    if( request) {
+      //Step 1: For loop user data = request[0] and run script with param idOnServer = request[1] euqal request[0]
+      var userDataReceived = request[0];
+      var idOnServerReceived = request[1];
+      for (var property in userDataReceived) {
+        
+        document.getElementById(idOnServerReceived[property]).value = userDataReceived[property];
+        console.log(document.getElementById(idOnServerReceived[property]).value.toString());
+      }
+    }
   }
 );
 

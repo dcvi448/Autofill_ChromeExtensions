@@ -27,6 +27,8 @@ firebase.initializeApp(config);
  * When signed in, we also authenticate to the Firebase Realtime Database.
  */
 var userId = "";
+var thongTinNguoiDungTrenMayChu = "";
+var idOnServer = "";
 function initApp() {
   // Listen for auth state changes.
   // [START authstatelistener]
@@ -49,7 +51,8 @@ function initApp() {
       document.getElementById('quickstart-account-email').textContent = user.email;
       document.getElementById('quickstart-account-photoAcc').src = user.photoURL;
       //readUserData();
-    readUserDataOnCloudStorage();
+      readUserDataOnCloudStorage();
+      readIdOnServer();
 
       // [END_EXCLUDE]
     } else {
@@ -159,41 +162,38 @@ window.addEventListener('load', function (evt) {
 
   document.getElementById('btnTuDongDienThongTin').addEventListener("click", function () {
 
-    var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
-    var thongTinNguoiDung = [];
+    if (thongTinNguoiDungTrenMayChu) {
+      
+      if (idOnServer) {
+        var thongTinNguoiDungVaIdTrenServer = [];
+        thongTinNguoiDungVaIdTrenServer.push(thongTinNguoiDungTrenMayChu);
+        thongTinNguoiDungVaIdTrenServer.push(idOnServer);
+        chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+          var activeTab = tabs[0];
+          chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDungVaIdTrenServer);
+        });
 
-    for (var item of formThongTinNguoiDung.elements) {
-      var userKey = { [item.id]: item.value }
-      thongTinNguoiDung.push(userKey);
+      }
     }
-    chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-      var activeTab = tabs[0];
-      chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDung);
-    });
-    readAndFillData(thongTinNguoiDung);
-  })
+  });
 });
 
-
-
-
-
-
-// Get the event page
-// chrome.runtime.getBackgroundPage(function(eventPage) {
-//     // Call the getPageInfo function in the event page, passing in 
-//     // our onPageDetailsReceived function as the callback. This injects 
-//     // content.js into the current tab's HTML
-//     eventPage.getPageDetails(onPageDetailsReceived);
-// });
-//});
-
-// function onPageDetailsReceived(pageDetails)  { 
-//   document.getElementById('title').value = pageDetails.title; 
-//   document.getElementById('url').value = pageDetails.url; 
-//   document.getElementById('summary').innerText = pageDetails.summary; 
-// } 
-
+function readIdOnServer() {
+  var db = firebase.firestore();
+  db.collection("web").doc("laodongkynghi.info")
+    .get()
+    .then(function (doc) {
+      if (doc.exists) {
+        idOnServer = doc.data();
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("Lỗi khi đọc thông tin!");
+      }
+    })
+    .catch(function (error) {
+      console.log("Lỗi khi đọc thông tin. Mô tả lỗi: ", error);
+    });
+}
 
 function luuThongTin() {
   event.preventDefault();
@@ -259,9 +259,9 @@ function readUserDataOnCloudStorage() {
     var db = firebase.firestore();
     db.collection("users").doc(userId)
       .get()
-      .then(function(doc) {
+      .then(function (doc) {
         if (doc.exists) {
-          var thongTinNguoiDungTrenMayChu = doc.data();
+          thongTinNguoiDungTrenMayChu = doc.data();
           if (thongTinNguoiDungTrenMayChu) {
             var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
             for (var item of formThongTinNguoiDung) {
@@ -270,8 +270,8 @@ function readUserDataOnCloudStorage() {
             }
           }
         } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
         }
       })
       .catch(function (error) {
@@ -296,20 +296,6 @@ function writeUserDataOnCloudStorage(thongTinNguoiDung) {
 
 }
 
-function readAndFillData(thongTinNguoiDung) {
-  var db = firebase.firestore();
-  db.collection("web").where("laodongkynghi.info", "==", true)
-    .get()
-    .then(function (querySnapshot) {
-      querySnapshot.forEach(function (doc) {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
 
-      });
-    })
-    .catch(function (error) {
-      console.log("Error getting documents: ", error);
-    });
-}
 
 
