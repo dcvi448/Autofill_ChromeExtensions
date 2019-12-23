@@ -2,8 +2,13 @@
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyD4KpCoB0BGx0eEPDgsOeDrPyBAC_ZhqrM",
+  authDomain: "tudongdien-7d35d.firebaseapp.com",
   databaseURL: "https://tudongdien-7d35d.firebaseio.com",
+  projectId: "tudongdien-7d35d",
   storageBucket: "tudongdien-7d35d.appspot.com",
+  messagingSenderId: "439290333260",
+  appId: "1:439290333260:web:9e9c36a720817a56754ce9",
+  measurementId: "G-MJQ78LS48M"
 };
 firebase.initializeApp(config);
 
@@ -43,7 +48,9 @@ function initApp() {
       document.getElementById('quickstart-account-fullName').textContent = user.displayName;
       document.getElementById('quickstart-account-email').textContent = user.email;
       document.getElementById('quickstart-account-photoAcc').src = user.photoURL;
-      readUserData();
+      //readUserData();
+    readUserDataOnCloudStorage();
+
       // [END_EXCLUDE]
     } else {
       // Let's try to get a Google auth token programmatically.
@@ -61,13 +68,14 @@ function initApp() {
   // [END authstatelistener]
 
   document.getElementById('quickstart-button').addEventListener('click', startSignIn, false);
+  // document.getElementById('quickstart-button-facebook').addEventListener('click', startSignInByFacebook, false);
 }
 
 /**
  * Start the auth flow and authorizes to Firebase.
  * @param{boolean} interactive True if the OAuth flow should request with an interactive mode.
  */
-function startAuth(interactive) {
+function startAuth(interactive, authenBy = 'google') {
   // Request an OAuth token from the Chrome Identity API.
   chrome.identity.getAuthToken({ interactive: !!interactive }, function (token) {
     if (chrome.runtime.lastError && !interactive) {
@@ -75,16 +83,36 @@ function startAuth(interactive) {
     } else if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
     } else if (token) {
+      var credential = {}
       // Authorize Firebase with the OAuth Access Token.
-      var credential = firebase.auth.GoogleAuthProvider.credential(null, token);
-      firebase.auth().signInWithCredential(credential).catch(function (error) {
-        // The OAuth token might have been invalidated. Lets' remove it from cache.
-        if (error.code === 'auth/invalid-credential') {
-          chrome.identity.removeCachedAuthToken({ token: token }, function () {
-            startAuth(interactive);
-          });
-        }
-      });
+      if (authenBy == 'google') {
+        credential = firebase.auth.GoogleAuthProvider.credential(null, token);
+        firebase.auth().signInWithCredential(credential).catch(function (error) {
+          // The OAuth token might have been invalidated. Lets' remove it from cache.
+          if (error.code === 'auth/invalid-credential') {
+            chrome.identity.removeCachedAuthToken({ token: token }, function () {
+              startAuth(interactive);
+            });
+          }
+        });
+      }
+      else {
+        credential = new firebase.auth.FacebookAuthProvider();
+        credential.setCustomParameters({
+          'display': 'popup' //Login dưới dạng popup
+        });
+        firebase.auth().signInWithPopup(credential).then(function (result) {
+          var token = result.credential.accessToken; //Token facebook của user
+          var user = result.user; //Thông tin của user
+          console.log(user)
+        }).catch(function (error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          var email = error.email;
+          var credential = error.credential;
+        });
+      }
+
     } else {
       console.error('The OAuth Token was null');
     }
@@ -95,11 +123,23 @@ function startAuth(interactive) {
  */
 function startSignIn() {
   document.getElementById('quickstart-button').disabled = true;
+  // document.getElementById('quickstart-button-facebook').disabled = true;
   if (firebase.auth().currentUser) {
     firebase.auth().signOut();
     document.getElementById('formLuuThongTin').reset();
   } else {
     startAuth(true);
+  }
+}
+
+function startSignInByFacebook() {
+  document.getElementById('quickstart-button').disabled = true;
+  // document.getElementById('quickstart-button-facebook').disabled = true;
+  if (firebase.auth().currentUser) {
+    firebase.auth().signOut();
+    document.getElementById('formLuuThongTin').reset();
+  } else {
+    startAuth(true, 'facebook');
   }
 }
 
@@ -130,6 +170,7 @@ window.addEventListener('load', function (evt) {
       var activeTab = tabs[0];
       chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDung);
     });
+    readAndFillData(thongTinNguoiDung);
   })
 });
 
@@ -138,13 +179,13 @@ window.addEventListener('load', function (evt) {
 
 
 
-  // Get the event page
-  // chrome.runtime.getBackgroundPage(function(eventPage) {
-  //     // Call the getPageInfo function in the event page, passing in 
-  //     // our onPageDetailsReceived function as the callback. This injects 
-  //     // content.js into the current tab's HTML
-  //     eventPage.getPageDetails(onPageDetailsReceived);
-  // });
+// Get the event page
+// chrome.runtime.getBackgroundPage(function(eventPage) {
+//     // Call the getPageInfo function in the event page, passing in 
+//     // our onPageDetailsReceived function as the callback. This injects 
+//     // content.js into the current tab's HTML
+//     eventPage.getPageDetails(onPageDetailsReceived);
+// });
 //});
 
 // function onPageDetailsReceived(pageDetails)  { 
@@ -163,25 +204,33 @@ function luuThongTin() {
   }
   else {
     var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
-    var thongTinNguoiDung = [];
+    var thongTinNguoiDung = {};
 
     for (var item of formThongTinNguoiDung.elements) {
-      var userKey = { [item.id]: item.value }
-      thongTinNguoiDung.push(userKey);
+      thongTinNguoiDung[item.id] = item.value
     }
 
     // var jthongTinNguoiDung = JSON.stringify(thongTinNguoiDung);
     // Get a reference to the database service
     var database = firebase.database();
-    writeUserData(thongTinNguoiDung);
-    readUserData();
+    //writeUserData(thongTinNguoiDung);
+    writeUserDataOnCloudStorage(thongTinNguoiDung);
+    //readUserData();
+    readUserDataOnCloudStorage();
   }
 }
 
 function writeUserData(thongTinNguoiDung) {
   firebase.database().ref(userId).set(
-    thongTinNguoiDung);
+    thongTinNguoiDung).then(function () {
+      alert("Lưu thông tin thành công!");
+    })
+    .catch(function (error) {
+      console.error("Lỗi khi lưu thông tin. Mô tả lỗi: ", error);
+    });
 }
+
+
 
 function readUserData() {
   var userId = firebase.auth().currentUser.uid;
@@ -204,3 +253,63 @@ function readUserData() {
     // ...
   });
 }
+
+function readUserDataOnCloudStorage() {
+  if (userId) {
+    var db = firebase.firestore();
+    db.collection("users").doc(userId)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          var thongTinNguoiDungTrenMayChu = doc.data();
+          if (thongTinNguoiDungTrenMayChu) {
+            var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
+            for (var item of formThongTinNguoiDung) {
+
+              item.value = thongTinNguoiDungTrenMayChu[item.id];
+            }
+          }
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+      })
+      .catch(function (error) {
+        console.log("Lỗi khi đọc thông tin. Mô tả lỗi: ", error);
+      });
+  }
+}
+
+function writeUserDataOnCloudStorage(thongTinNguoiDung) {
+  // firebase.database().ref(userId).set(
+  //   thongTinNguoiDung);
+
+  //Add a new document in collection "cities"
+  var db = firebase.firestore();
+
+  db.collection("users").doc(userId).set(thongTinNguoiDung).then(function () {
+    alert("Lưu thông tin thành công!");
+  })
+    .catch(function (error) {
+      console.error("Lỗi khi lưu thông tin. Mô tả lỗi: ", error);
+    });
+
+}
+
+function readAndFillData(thongTinNguoiDung) {
+  var db = firebase.firestore();
+  db.collection("web").where("laodongkynghi.info", "==", true)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+
+      });
+    })
+    .catch(function (error) {
+      console.log("Error getting documents: ", error);
+    });
+}
+
+

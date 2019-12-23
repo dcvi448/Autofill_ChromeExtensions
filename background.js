@@ -2,8 +2,13 @@
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyD4KpCoB0BGx0eEPDgsOeDrPyBAC_ZhqrM",
-  databaseURL: "https://tudongdien-7d35d.firebaseio.com",
-  storageBucket: "tudongdien-7d35d.appspot.com",
+    authDomain: "tudongdien-7d35d.firebaseapp.com",
+    databaseURL: "https://tudongdien-7d35d.firebaseio.com",
+    projectId: "tudongdien-7d35d",
+    storageBucket: "tudongdien-7d35d.appspot.com",
+    messagingSenderId: "439290333260",
+    appId: "1:439290333260:web:9e9c36a720817a56754ce9",
+    measurementId: "G-MJQ78LS48M"
 };
 firebase.initializeApp(config);
 
