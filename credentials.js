@@ -29,6 +29,7 @@ firebase.initializeApp(config);
 var userId = "";
 var thongTinNguoiDungTrenMayChu = "";
 var idOnServer = "";
+var advancedfeature = false;
 function initApp() {
   // Listen for auth state changes.
   // [START authstatelistener]
@@ -46,7 +47,7 @@ function initApp() {
       // [START_EXCLUDE]
       document.getElementById('quickstart-button').textContent = 'Đăng xuất';
       document.getElementById('quickstart-sign-in-status').textContent = 'Đã đăng nhập';
-      document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+      // document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
       document.getElementById('quickstart-account-fullName').textContent = user.displayName;
       document.getElementById('quickstart-account-email').textContent = user.email;
       document.getElementById('quickstart-account-photoAcc').src = user.photoURL;
@@ -60,13 +61,14 @@ function initApp() {
       // [START_EXCLUDE]
       document.getElementById('quickstart-button').textContent = 'Đăng nhập bằng Google';
       document.getElementById('quickstart-sign-in-status').textContent = 'Chưa đăng nhập';
-      document.getElementById('quickstart-account-details').textContent = '';
+      // document.getElementById('quickstart-account-details').textContent = '';
       document.getElementById('quickstart-account-fullName').textContent = '';
       document.getElementById('quickstart-account-email').textContent = '';
       document.getElementById('quickstart-account-photoAcc').src = '';
       // [END_EXCLUDE]
     }
     document.getElementById('quickstart-button').disabled = false;
+    checkAccount();
   });
   // [END authstatelistener]
 
@@ -179,7 +181,26 @@ window.addEventListener('load', function (evt) {
 });
 
 function checkAccount(){
-  
+  var db = firebase.firestore();
+  db.collection("proaccount").doc(userId)
+    .get()
+    .then(function (doc) {
+      if (doc.exists) {
+        advancedfeature = true;
+        document.getElementById('quickstart-account-proaccount').textContent = 'Bạn đang dùng phiên bản PRO';
+        //https://tudongdien-7d35d.firebaseapp.com/
+
+      } else {
+        advancedfeature = false;
+        document.getElementById('quickstart-account-proaccount').textContent = 'Bạn đang dùng phiên bản giới hạn tính năng';
+        document.getElementById('quickstart-account-proaccount-buy').textContent = '--> Nhấn vào đây để thanh toán';
+
+      }
+    })
+    .catch(function (error) {
+      console.log("Lỗi khi đọc thông tin. Mô tả lỗi: ", error);
+      advancedfeature = false;
+    });
 }
 
 function readIdOnServer() {

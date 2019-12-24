@@ -90,3 +90,17 @@ table{
 .element{
   text-align-last: center;
 }
+#quickstart-account-proaccount{
+color: red;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+#proaccount{
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-color: red;
+  border-style: dashed;
+  width: 100%;
+}
