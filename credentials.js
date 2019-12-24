@@ -53,7 +53,6 @@ function initApp() {
       document.getElementById('quickstart-account-photoAcc').src = user.photoURL;
       //readUserData();
       readUserDataOnCloudStorage();
-      readIdOnServer();
 
       // [END_EXCLUDE]
     } else {
@@ -166,16 +165,18 @@ window.addEventListener('load', function (evt) {
 
     if (thongTinNguoiDungTrenMayChu) {
 
-      if (idOnServer) {
+      
         var thongTinNguoiDungVaIdTrenServer = [];
         thongTinNguoiDungVaIdTrenServer.push(thongTinNguoiDungTrenMayChu);
-        thongTinNguoiDungVaIdTrenServer.push(idOnServer);
+        // thongTinNguoiDungVaIdTrenServer.push(idOnServer);
         chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
           var activeTab = tabs[0];
-          chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDungVaIdTrenServer);
+          // thongTinNguoiDungVaIdTrenServer.push(activeTab.url);
+          //chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDungVaIdTrenServer);
+          readIdOnServer(activeTab.id, thongTinNguoiDungVaIdTrenServer, new URL(activeTab.url).hostname);
         });
 
-      }
+      
     }
   });
 });
@@ -194,7 +195,7 @@ function checkAccount(){
         advancedfeature = false;
         document.getElementById('quickstart-account-proaccount').textContent = 'Bạn đang dùng phiên bản giới hạn tính năng';
         document.getElementById('quickstart-account-proaccount-buy').textContent = '--> Nhấn vào đây để thanh toán';
-
+        alert('LƯU Ý: Bạn đang dùng phiên bản giới hạn. Phiên bản giới hạn CHỈ SỬ DỤNG ĐƯỢC TRÊN TRANG WEB [laodongkynghi.info].  MỌI TRANG WEB KHÁC sẽ không sử dụng được trừ khi bạn nâng cấp lên phiên bản PRO.')
       }
     })
     .catch(function (error) {
@@ -203,13 +204,19 @@ function checkAccount(){
     });
 }
 
-function readIdOnServer() {
+function readIdOnServer(activeTabId, thongTinNguoiDungVaIdTrenServer, url) {
   var db = firebase.firestore();
-  db.collection("web").doc("laodongkynghi.info")
+  if (url != 'laodongkynghi.info' && advancedfeature==false){
+    alert('LƯU Ý: Bạn đang dùng phiên bản giới hạn. Phiên bản giới hạn CHỈ SỬ DỤNG ĐƯỢC TRÊN TRANG WEB [laodongkynghi.info].  MỌI TRANG WEB KHÁC sẽ không sử dụng được trừ khi bạn nâng cấp lên phiên bản PRO.');
+    return;
+  }
+  db.collection("web").doc(url)
     .get()
     .then(function (doc) {
       if (doc.exists) {
         idOnServer = doc.data();
+        thongTinNguoiDungVaIdTrenServer.push(idOnServer);
+        chrome.tabs.sendMessage(activeTabId, thongTinNguoiDungVaIdTrenServer);
       } else {
         // doc.data() will be undefined in this case
         console.log("Lỗi khi đọc thông tin!");

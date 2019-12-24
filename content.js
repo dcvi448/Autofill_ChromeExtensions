@@ -14,14 +14,14 @@ chrome.runtime.onMessage.addListener(
       //Step 1: For loop user data = request[0] and run script with param idOnServer = request[1] euqal request[0]
       var userDataReceived = request[0];
       var idOnServerReceived = request[1];
-      console.log(userDataReceived);
-      console.log(idOnServerReceived);
       for (var property in userDataReceived) {
         //objRegister_GraduatedUniversity
+        if (property.includes('ngay'))
+          document.getElementById(idOnServerReceived[property]).value = new Date(userDataReceived[property]).toLocaleDateString('en-GB');
+        else
+          document.getElementById(idOnServerReceived[property]).value = userDataReceived[property];
         
-        document.getElementById(idOnServerReceived[property]).value = userDataReceived[property];
-        
-          console.log(idOnServerReceived[property] + "=" + userDataReceived[property]);
+          
       }
     }
   }

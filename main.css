@@ -104,3 +104,7 @@ color: red;
   border-style: dashed;
   width: 100%;
 }
+#btnTuDongDienThongTin{
+  text-transform: uppercase;
+  font-weight: bold;
+}
