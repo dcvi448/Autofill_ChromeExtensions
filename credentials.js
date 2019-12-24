@@ -163,7 +163,7 @@ window.addEventListener('load', function (evt) {
   document.getElementById('btnTuDongDienThongTin').addEventListener("click", function () {
 
     if (thongTinNguoiDungTrenMayChu) {
-      
+
       if (idOnServer) {
         var thongTinNguoiDungVaIdTrenServer = [];
         thongTinNguoiDungVaIdTrenServer.push(thongTinNguoiDungTrenMayChu);
@@ -177,6 +177,10 @@ window.addEventListener('load', function (evt) {
     }
   });
 });
+
+function checkAccount(){
+  
+}
 
 function readIdOnServer() {
   var db = firebase.firestore();
@@ -207,7 +211,8 @@ function luuThongTin() {
     var thongTinNguoiDung = {};
 
     for (var item of formThongTinNguoiDung.elements) {
-      thongTinNguoiDung[item.id] = item.value
+      if (item.id != 'saveForm')
+        thongTinNguoiDung[item.id] = item.value
     }
 
     // var jthongTinNguoiDung = JSON.stringify(thongTinNguoiDung);
@@ -240,10 +245,11 @@ function readUserData() {
     if (thongTinNguoiDungTrenMayChu) {
       var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
       for (var item of formThongTinNguoiDung.elements) {
-
-        item.value = thongTinNguoiDungTrenMayChu.find(function (i) {
-          return i.hasOwnProperty(item.id);
-        })[item.id];
+        if (item.id != 'saveForm') {
+          item.value = thongTinNguoiDungTrenMayChu.find(function (i) {
+            return i.hasOwnProperty(item.id);
+          })[item.id];
+        }
       }
       // formThongTinNguoiDung.elements.hoten.value =thongTinNguoiDungTrenMayChu.find(function(item){
       //   return item.hasOwnProperty('hoten');
@@ -265,9 +271,10 @@ function readUserDataOnCloudStorage() {
           if (thongTinNguoiDungTrenMayChu) {
             var formThongTinNguoiDung = document.getElementById('formLuuThongTin');
             for (var item of formThongTinNguoiDung) {
-
-              item.value = thongTinNguoiDungTrenMayChu[item.id];
+              if (item.id != 'saveForm')
+                item.value = thongTinNguoiDungTrenMayChu[item.id];
             }
+
           }
         } else {
           // doc.data() will be undefined in this case

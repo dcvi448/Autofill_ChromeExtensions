@@ -4,10 +4,10 @@
   "description": "Ung dung tu dong dien du lieu",
   "version": "2.1",
   "icons": {
-    "128": "firebase.png"
+    "128": "logo-64.png"
   },
   "browser_action": {
-    "default_icon": "firebase.png",
+    "default_icon": "logo-64.png",
     "default_popup": "credentials.html"
   },
   "background": {
