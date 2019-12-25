@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "TuDongDien",
   "description": "Ung dung tu dong dien du lieu",
-  "version": "2.1",
+  "version": "2019.12.25",
   "icons": {
     "128": "logo-64.png"
   },
@@ -17,12 +17,11 @@
   "permissions": [
     "identity",
     "tabs",
-    "activeTab",
-    "*://*/*"
+    "activeTab"
   ],
   "content_scripts": [
     {
-      "matches": ["https://*.laodongkynghi.info/*","http://*.laodongkynghi.info/*"],
+      "matches": ["http://*/*","https://*/*"],
       "js": ["content.js"]
     }
   ],
