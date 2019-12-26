@@ -5,7 +5,7 @@
   "description": "Tiện ích tự động điền thông tin người dùng vào biểu mẫu trên trang Web nếu người dùng muốn",
   "version": "2019.12.27",
   "icons": {
-    "128": "logo-64.png"
+    "64": "logo-64.png"
   },
   "browser_action": {
     "default_icon": "logo-64.png",
@@ -17,12 +17,11 @@
   },
   "permissions": [
     "identity",
-    "tabs",
     "activeTab"
   ],
   "content_scripts": [
     {
-      "matches": ["http://*/*","https://*/*"],
+      "matches": ["https://laodongkynghi.info/*","https://laodongkynghi.dolab.gov.vn/*"],
       "js": ["content.js"]
     }
   ],
