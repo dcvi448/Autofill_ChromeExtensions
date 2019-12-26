@@ -216,6 +216,7 @@ function readIdOnServer(activeTabId, thongTinNguoiDungVaIdTrenServer, url) {
       if (doc.exists) {
         idOnServer = doc.data();
         thongTinNguoiDungVaIdTrenServer.push(idOnServer);
+        thongTinNguoiDungVaIdTrenServer.push(url);
         chrome.tabs.sendMessage(activeTabId, thongTinNguoiDungVaIdTrenServer);
       } else {
         // doc.data() will be undefined in this case

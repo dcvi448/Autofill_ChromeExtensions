@@ -18,7 +18,18 @@ chrome.runtime.onMessage.addListener(
         //objRegister_GraduatedUniversity
         if (property.includes('ngay'))
           document.getElementById(idOnServerReceived[property]).value = new Date(userDataReceived[property]).toLocaleDateString('en-GB');
-        else
+        else if (request[2]=='laodongkynghi.info' && property == 'hocvan'){
+          if(userDataReceived[property]==1){
+            
+            
+            document.getElementsByName(idOnServerReceived[property])[1].click();
+          }
+          else{
+            
+            document.getElementsByName(idOnServerReceived[property])[0].click();
+          }
+        }
+          else
           document.getElementById(idOnServerReceived[property]).value = userDataReceived[property];
         
           
