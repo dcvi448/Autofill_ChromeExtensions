@@ -1,8 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "TuDongDien",
-  "description": "Ung dung tu dong dien du lieu",
-  "version": "2019.12.25",
+  "name": "Tự động điền (Autofill)",
+  "short_name": "TuDongDien",
+  "description": "Tiện ích tự động điền thông tin người dùng vào biểu mẫu trên trang Web nếu người dùng muốn",
+  "version": "2019.12.27",
   "icons": {
     "128": "logo-64.png"
   },
