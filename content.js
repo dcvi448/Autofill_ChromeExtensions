@@ -9,30 +9,30 @@ console.log('Da load content.js');
 
 //request [0]: user data, request [1]: id on server
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if( request) {
+  function (request, sender, sendResponse) {
+    if (request) {
       //Step 1: For loop user data = request[0] and run script with param idOnServer = request[1] euqal request[0]
       var userDataReceived = request[0];
       var idOnServerReceived = request[1];
       for (var property in userDataReceived) {
         //objRegister_GraduatedUniversity
-        if (property.includes('ngay'))
-          document.getElementById(idOnServerReceived[property]).value = new Date(userDataReceived[property]).toLocaleDateString('en-GB');
-        else if (request[2]=='laodongkynghi.info' && property == 'hocvan'){
-          if(userDataReceived[property]==1){
-            
-            
-            document.getElementsByName(idOnServerReceived[property])[1].click();
+        if (document.getElementById(idOnServerReceived[property]) === null) { } else {
+          if (property.includes('ngay'))
+            document.getElementById(idOnServerReceived[property]).value = new Date(userDataReceived[property]).toLocaleDateString('en-GB');
+          else if (request[2] == 'laodongkynghi.info' && property == 'hocvan') {
+            if (userDataReceived[property] == 1) {
+              document.getElementsByName(idOnServerReceived[property])[1].click();
+            }
+            else {
+
+              document.getElementsByName(idOnServerReceived[property])[0].click();
+            }
           }
-          else{
-            
-            document.getElementsByName(idOnServerReceived[property])[0].click();
-          }
-        }
           else
-          document.getElementById(idOnServerReceived[property]).value = userDataReceived[property];
-        
-          
+            document.getElementById(idOnServerReceived[property]).value = userDataReceived[property];
+
+
+        }
       }
     }
   }

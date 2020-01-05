@@ -3,7 +3,7 @@
   "name": "Tự động điền (Autofill)",
   "short_name": "TuDongDien",
   "description": "Tiện ích tự động điền thông tin người dùng vào biểu mẫu trên trang Web nếu người dùng muốn",
-  "version": "2019.12.27",
+  "version": "2020.01.05",
   "icons": {
     "64": "logo-64.png"
   },
