@@ -64,7 +64,6 @@ function initApp() {
       document.getElementById('quickstart-account-fullName').textContent = '';
       document.getElementById('quickstart-account-email').textContent = '';
       document.getElementById('quickstart-account-photoAcc').src = '';
-      // [END_EXCLUDE]
     }
     document.getElementById('quickstart-button').disabled = false;
     checkAccount();
@@ -196,6 +195,7 @@ function checkAccount(){
         document.getElementById('quickstart-account-proaccount').textContent = 'Bạn đang dùng phiên bản giới hạn tính năng';
         document.getElementById('quickstart-account-proaccount-buy').textContent = '--> Nhấn vào đây để thanh toán';
         alert('LƯU Ý: Bạn đang dùng phiên bản giới hạn. Phiên bản giới hạn CHỈ SỬ DỤNG ĐƯỢC TRÊN TRANG WEB [laodongkynghi.info].  MỌI TRANG WEB KHÁC sẽ không sử dụng được trừ khi bạn nâng cấp lên phiên bản PRO.')
+        
       }
     })
     .catch(function (error) {

@@ -55,3 +55,9 @@ chrome.runtime.onConnect.addListener(function(port) {
       });
   }
 });
+
+chrome.runtime.onInstalled.addListener(function (object) {
+  chrome.tabs.create({url: "./update.html"}, function (tab) {
+      console.log("Update completed!");
+  });
+});

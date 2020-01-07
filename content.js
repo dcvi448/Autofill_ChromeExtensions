@@ -4,7 +4,6 @@
 //     'url': window.location.href,
 //     'summary': window.getSelection().toString()
 // });
-console.log('Da load content.js');
 //request this mean user data
 
 //request [0]: user data, request [1]: id on server
@@ -16,7 +15,7 @@ chrome.runtime.onMessage.addListener(
       var idOnServerReceived = request[1];
       for (var property in userDataReceived) {
         //objRegister_GraduatedUniversity
-        if (document.getElementById(idOnServerReceived[property]) === null) { } else {
+        if (document.getElementById(idOnServerReceived[property]) === null && property != 'hocvan') { } else {
           if (property.includes('ngay'))
             document.getElementById(idOnServerReceived[property]).value = new Date(userDataReceived[property]).toLocaleDateString('en-GB');
           else if (request[2] == 'laodongkynghi.info' && property == 'hocvan') {

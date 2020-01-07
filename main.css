@@ -16,7 +16,7 @@
 
 
 body {
-  width: 350px;
+  width: 550px;
   min-height: 350px;
   margin: 0;
   padding: 5px;
@@ -44,28 +44,9 @@ li a {
 }
 
 
-#form_container{
-  width: 100%;
-  text-align: center;
-}
-#form_container input{
-  width: 70%;
-  text-align: center;
-}
-#form_container select{
-  width: 70%;
-  text-align: center;
-}
+
 .section_break{
   text-align: left;
-}
-.buttons{
-  padding-top: 20px;
-  text-align: center;
-}
-#saveForm{
-  text-transform: uppercase;
-  font-weight: bold;
 }
 .element{
   text-align-last: center;
