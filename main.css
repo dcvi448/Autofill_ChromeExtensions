@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-html, body {
-  font-family: 'Roboto', 'Helvetica', sans-serif;
-}
+
 body {
-  width: 400px;
-  min-height: 400px;
+  width: 350px;
+  min-height: 350px;
   margin: 0;
   padding: 5px;
 }
@@ -44,26 +42,8 @@ li a {
 #quickstart-sign-in-status {
   font-weight: bold;
 }
-pre {
-  overflow-x: scroll;
-  line-height: 18px;
-}
-code {
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-h3 {
-  background: url('logo-64.png') no-repeat;
-  background-size: 40px;
-  padding-left: 50px;
-  line-height: 40px;
-}
-#quickstart-account-photoAcc {
-  width: 100px;
-}
-table{
-  width: fit-content;
-}
+
+
 #form_container{
   width: 100%;
   text-align: center;
@@ -90,21 +70,7 @@ table{
 .element{
   text-align-last: center;
 }
-#quickstart-account-proaccount{
-color: red;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-#proaccount{
-  padding-top: 3px;
-  padding-bottom: 3px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  border-color: red;
-  border-style: dashed;
-  width: 100%;
-}
+
 #btnTuDongDienThongTin{
   text-transform: uppercase;
-  font-weight: bold;
 }
