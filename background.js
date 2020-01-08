@@ -2,13 +2,13 @@
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyD4KpCoB0BGx0eEPDgsOeDrPyBAC_ZhqrM",
-    authDomain: "tudongdien-7d35d.firebaseapp.com",
-    databaseURL: "https://tudongdien-7d35d.firebaseio.com",
-    projectId: "tudongdien-7d35d",
-    storageBucket: "tudongdien-7d35d.appspot.com",
-    messagingSenderId: "439290333260",
-    appId: "1:439290333260:web:9e9c36a720817a56754ce9",
-    measurementId: "G-MJQ78LS48M"
+  authDomain: "tudongdien-7d35d.firebaseapp.com",
+  databaseURL: "https://tudongdien-7d35d.firebaseio.com",
+  projectId: "tudongdien-7d35d",
+  storageBucket: "tudongdien-7d35d.appspot.com",
+  messagingSenderId: "439290333260",
+  appId: "1:439290333260:web:9e9c36a720817a56754ce9",
+  measurementId: "G-MJQ78LS48M"
 };
 firebase.initializeApp(config);
 
@@ -29,12 +29,12 @@ firebase.initializeApp(config);
 function initApp() {
 
   // Listen for auth state changes.
-  firebase.auth().onAuthStateChanged(function(user) {
+  firebase.auth().onAuthStateChanged(function (user) {
     console.log('User state change detected from the Background script of the Chrome Extension:', user);
   });
 }
 
-window.onload = function() {
+window.onload = function () {
   initApp();
 };
 
@@ -48,16 +48,19 @@ window.onload = function() {
 
 
 
-chrome.runtime.onConnect.addListener(function(port) {
-  if(port.name == "my-channel"){
-      port.onMessage.addListener(function(msg) {
-          port.postMessage("send from background");
-      });
+chrome.runtime.onConnect.addListener(function (port) {
+  if (port.name == "my-channel") {
+    port.onMessage.addListener(function (msg) {
+      port.postMessage("send from background");
+    });
   }
 });
 
 chrome.runtime.onInstalled.addListener(function (object) {
-  chrome.tabs.create({url: "./update.html"}, function (tab) {
-      console.log("Update completed!");
+  chrome.tabs.create({ url: "./update.html" }, function (tab) {
+
+  });
+  chrome.tabs.create({ url: "./howtopurchase.html" }, function (tab) {
+
   });
 });
