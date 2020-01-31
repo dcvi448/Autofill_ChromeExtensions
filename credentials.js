@@ -172,6 +172,7 @@ window.addEventListener('load', function (evt) {
           var activeTab = tabs[0];
           // thongTinNguoiDungVaIdTrenServer.push(activeTab.url);
           //chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDungVaIdTrenServer);
+          //readIdOnServer(activeTab.id, thongTinNguoiDungVaIdTrenServer, "laodongkynghi.dolab.gov.vn");
           readIdOnServer(activeTab.id, thongTinNguoiDungVaIdTrenServer, new URL(activeTab.url).hostname);
         });
 
@@ -210,6 +211,7 @@ function readIdOnServer(activeTabId, thongTinNguoiDungVaIdTrenServer, url) {
     alert('LƯU Ý: Bạn đang dùng phiên bản giới hạn. Phiên bản giới hạn CHỈ SỬ DỤNG ĐƯỢC TRÊN TRANG WEB [laodongkynghi.info].  MỌI TRANG WEB KHÁC sẽ không sử dụng được trừ khi bạn nâng cấp lên phiên bản PRO.');
     return;
   }
+  if (url=='laodongkynghi.info'){
   db.collection("web").doc(url)
     .get()
     .then(function (doc) {
@@ -226,6 +228,25 @@ function readIdOnServer(activeTabId, thongTinNguoiDungVaIdTrenServer, url) {
     .catch(function (error) {
       console.log("Lỗi khi đọc thông tin. Mô tả lỗi: ", error);
     });
+  }
+  else{
+    db.collection("keyValue").doc(url)
+    .get()
+    .then(function (doc) {
+      if (doc.exists) {
+        idOnServer = doc.data();
+        thongTinNguoiDungVaIdTrenServer.push(idOnServer);
+        thongTinNguoiDungVaIdTrenServer.push(url);
+        chrome.tabs.sendMessage(activeTabId, thongTinNguoiDungVaIdTrenServer);
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("Lỗi khi đọc thông tin!");
+      }
+    })
+    .catch(function (error) {
+      console.log("Lỗi khi đọc thông tin. Mô tả lỗi: ", error);
+    });
+  }
 }
 
 function luuThongTin() {
