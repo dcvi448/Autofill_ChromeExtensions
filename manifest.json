@@ -1,38 +1,30 @@
 {
-  "manifest_version": 2,
-  "name": "Tự động điền (Autofill)",
-  "short_name": "TuDongDien",
-  "description": "Tiện ích tự động điền thông tin người dùng vào biểu mẫu trên trang Web nếu người dùng muốn",
-  "version": "2020.01.08.2",
-  "icons": {
-    "64": "logo-64.png"
-  },
-  "browser_action": {
-    "default_icon": "logo-64.png",
-    "default_popup": "credentials.html"
-  },
-  "background": {
-    "page": "background.html",
-    "script":"event.js"
-  },
-  "permissions": [
-    "identity",
-    "activeTab"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["https://laodongkynghi.info/*","https://laodongkynghi.dolab.gov.vn/*"],
-      "js": ["content.js"]
-    }
-  ],
-  "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self' ",
-  "oauth2": {
-    
-    "client_id": "149908794183-j6i1k35v1rpj2v082qfu7lieie8kujg5.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/userinfo.profile"
-    ]
-  },
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArue5kWGnS6+ZAiL1iyHYlqiJxaOQD7K4F+gx4M/vmTlzEiW9D3zY4Mnk1X9rnbWySq8QFJtw/LiO1v0q5Czvpszd600l5oWUimdHlIUs/HkDQwnhy2Q4GWOn1/MAPzYnrdRaZGeVwOUTFhkuyCydtSP4hduWW2qSZACZOgWK0dqv5sAV1SpQloJJ4rqscXVB+y54vqL4b4TDGE9k8cjt4JxUWthvPrYc7vLN2XnLuR28kX8Jmw/dGkFZozqDT6890QanERs+q80UA2BW9zYo53bI0sigK3Bw7XePX23QUIXSsPHc0Qh1r77VuNb2LR67u0VTszniiLNJK0UM0XGFZwIDAQAB"
+   "background": {
+      "page": "background.html",
+      "script": "event.js"
+   },
+   "browser_action": {
+      "default_icon": "logo-64.png",
+      "default_popup": "credentials.html"
+   },
+   "content_scripts": [ {
+      "js": [ "content.js" ],
+      "matches": [ "https://laodongkynghi.info/*", "https://laodongkynghi.dolab.gov.vn/*" ]
+   } ],
+   "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self' ",
+   "description": "Tiện ích tự động điền thông tin người dùng vào biểu mẫu trên trang Web nếu người dùng muốn",
+   "icons": {
+      "64": "logo-64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArue5kWGnS6+ZAiL1iyHYlqiJxaOQD7K4F+gx4M/vmTlzEiW9D3zY4Mnk1X9rnbWySq8QFJtw/LiO1v0q5Czvpszd600l5oWUimdHlIUs/HkDQwnhy2Q4GWOn1/MAPzYnrdRaZGeVwOUTFhkuyCydtSP4hduWW2qSZACZOgWK0dqv5sAV1SpQloJJ4rqscXVB+y54vqL4b4TDGE9k8cjt4JxUWthvPrYc7vLN2XnLuR28kX8Jmw/dGkFZozqDT6890QanERs+q80UA2BW9zYo53bI0sigK3Bw7XePX23QUIXSsPHc0Qh1r77VuNb2LR67u0VTszniiLNJK0UM0XGFZwIDAQAB",
+   "manifest_version": 2,
+   "name": "Tự động điền (Autofill)",
+   "oauth2": {
+      "client_id": "149908794183-j6i1k35v1rpj2v082qfu7lieie8kujg5.apps.googleusercontent.com",
+      "scopes": [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ]
+   },
+   "permissions": [ "identity", "activeTab" ],
+   "short_name": "TuDongDien",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2020.01.10"
 }
