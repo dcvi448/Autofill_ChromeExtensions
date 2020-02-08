@@ -26,5 +26,5 @@
    "permissions": [ "identity", "activeTab" ],
    "short_name": "TuDongDien",
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "2020.02.06"
+   "version": "2020.02.07"
 }

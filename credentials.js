@@ -194,8 +194,8 @@ function checkAccount(){
 
       } else {
         advancedfeature = false;
-        document.getElementById('quickstart-account-proaccount').textContent = 'Bạn đang dùng phiên bản giới hạn tính năng';
-        document.getElementById('quickstart-account-proaccount-buy').textContent = '--> Nhấn vào đây để thanh toán';
+        document.getElementById('quickstart-account-proaccount').textContent = 'Bạn đang dùng phiên bản giới hạn - không dùng được ở trang dolab.gov.vn';
+        document.getElementById('quickstart-account-proaccount-buy').textContent = '--> Nhấn vào đây để nâng cấp lên gói PRO';
         alert('LƯU Ý: Bạn đang dùng phiên bản giới hạn. Phiên bản giới hạn CHỈ SỬ DỤNG ĐƯỢC TRÊN TRANG WEB [laodongkynghi.info].  MỌI TRANG WEB KHÁC sẽ không sử dụng được trừ khi bạn nâng cấp lên phiên bản PRO.')
         
       }
