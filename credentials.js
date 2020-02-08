@@ -172,6 +172,7 @@ window.addEventListener('load', function (evt) {
           var activeTab = tabs[0];
           // thongTinNguoiDungVaIdTrenServer.push(activeTab.url);
           //chrome.tabs.sendMessage(activeTab.id, thongTinNguoiDungVaIdTrenServer);
+          
           //readIdOnServer(activeTab.id, thongTinNguoiDungVaIdTrenServer, "laodongkynghi.dolab.gov.vn");
           readIdOnServer(activeTab.id, thongTinNguoiDungVaIdTrenServer, new URL(activeTab.url).hostname);
         });

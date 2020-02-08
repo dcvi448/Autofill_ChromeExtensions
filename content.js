@@ -10,6 +10,7 @@
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
     try {
+      console.log('Site được hỗ trợ: ' + request[2]);
       if (request) {
         //Step 1: For loop user data = request[0] and run script with param idOnServer = request[1] euqal request[0]
         var userDataReceived = request[0];
@@ -17,12 +18,17 @@ chrome.runtime.onMessage.addListener(
         for (var property in userDataReceived) {
           if (request[2] == 'laodongkynghi.info') {
             //objRegister_GraduatedUniversity
-            if (document.getElementById(idOnServerReceived[property]) === null && property != 'hocvan') {
+            if (document.getElementById(idOnServerReceived[property]) === null && property != 'hocvan' & property!='quanhuyenthanhpho') {
 
             } else {
               if (property.includes('ngay'))
                 document.getElementById(idOnServerReceived[property]).value = new Date(userDataReceived[property]).toLocaleDateString('en-GB');
-              else if (request[2] == 'laodongkynghi.info' && property == 'hocvan') {
+              else if (property == 'quanhuyenthanhpho'){
+                if (document.getElementsByName(idOnServerReceived[property]).length > 0){
+                  document.getElementsByName(idOnServerReceived[property])[0].value = userDataReceived[property];
+                }
+              }
+              else if (property == 'hocvan') {
                 if (document.getElementsByName(idOnServerReceived[property]).length != 0) {
                   if (userDataReceived[property] == 1) {
                     document.getElementsByName(idOnServerReceived[property])[1].click();
@@ -43,7 +49,7 @@ chrome.runtime.onMessage.addListener(
             } else {
               if (property.includes('ngay'))
                 document.getElementById(idOnServerReceived[property]).value = new Date(userDataReceived[property]).toLocaleDateString('en-GB');
-              else if (request[2] == 'laodongkynghi.dolab.gov.vn' && property == 'hocvan') {
+              else if (property == 'hocvan') {
                 if (document.getElementsByName(idOnServerReceived[property]).length != 0) {
                   if (userDataReceived[property] == 1) {
                     document.getElementsByName(idOnServerReceived[property])[1].click();
